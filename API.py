@@ -1,37 +1,18 @@
-import sqlite3
-import json
-from flask import Flask, jsonify, request
+# A very simple Flask Hello World app for you to get started with...
+from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-# Connect to SQLite database (or create a new one if it doesn't exist)
-conn = sqlite3.connect('users.db')
-
-# Create a cursor object to execute SQL queries
-cursor = conn.cursor()
-
-# Select all data from the table
-select_query = 'SELECT * FROM users'
-cursor.execute(select_query)
-
-# Fetch all rows
-result = cursor.fetchall()
-
-print(result)
-
 # Convert result data to a list of dictionaries
-users_data = [
-    {"id": user[0], "username": user[1], "full_name": user[2], "email": user[3], "password": user[4]}
-    for user in result
-]
+users_data =[{'id': 1, 'username': 'Deepak1', 'full_name': 'Deepak Vashist', 'email': 'deepak@gmail.com', 'password': 'deepak@123'},
+{'id': 2, 'username': 'Yashpal1992', 'full_name': 'Yashpal Sorout', 'email': 'yashpalsorout1992@gmail.com', 'password': 'Yash@123'},
+{'id': 3, 'username': 'Yash', 'full_name': 'Yash', 'email': 'yash@gmail.com', 'password': 'Yash@123'},
+{'id': 4, 'username': 'ABC1', 'full_name': 'Abc', 'email': 'Abc@gmail.com', 'password': 'Abc@123'},
+{'id': 5, 'username': 'AAKASH', 'full_name': 'Aakash Aneja', 'email': 'Aakashaneja@gmail.com', 'password': 'Aakash@123'},
+{'id': 6, 'username': 'Xyz11', 'full_name': 'Xyz', 'email': 'xyz@gmail.com', 'password': 'Xyz@121'},
+{'id': 7, 'username': 'Ashish', 'full_name': 'Ashish Pal', 'email': 'ashish@pal.com', 'password':'Ashish@pal'}]
 
-@app.route('/api/user/<username>', methods=['GET'])
-def get_user(username):
-    user = next((user for user in users_data if user['username'] == username), None)
-    if user:
-        return jsonify(user)
-    else:
-        return jsonify({"error": "User not found"}), 404
 
-if __name__ == '__main__':
-    app.run(debug=True)
+@app.route('/', methods=['GET'])
+def get_all_users():
+    return jsonify(users_data)
